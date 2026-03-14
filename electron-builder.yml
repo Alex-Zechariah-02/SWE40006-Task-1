@@ -1,0 +1,25 @@
+appId: com.acadence.app
+productName: Acadence
+
+directories:
+  output: release
+
+files:
+  - out/**/*
+
+npmRebuild: false
+
+win:
+  icon: build/icon.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
+
+nsis:
+  oneClick: true
+  perMachine: false
+  shortcutName: Acadence
+  uninstallDisplayName: Acadence
+  createDesktopShortcut: always
+  deleteAppDataOnUninstall: false
