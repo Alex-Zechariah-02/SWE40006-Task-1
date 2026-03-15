@@ -2,15 +2,28 @@ import type { Assignment } from '../types/assignment'
 
 const STORAGE_KEY = 'acadence-assignments'
 
-export function loadAssignments(): Assignment[] {
+export interface LoadResult {
+  data: Assignment[]
+  error: string | null
+}
+
+export function loadAssignments(): LoadResult {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return []
+    if (!raw) return { data: [], error: null }
     const parsed = JSON.parse(raw)
-    if (!Array.isArray(parsed)) return []
-    return parsed as Assignment[]
+    if (!Array.isArray(parsed)) {
+      return { data: [], error: 'Stored data is invalid. Your assignments could not be loaded.' }
+    }
+    return {
+      data: parsed.map((a: Record<string, unknown>) => ({
+        description: '',
+        ...a
+      })) as Assignment[],
+      error: null
+    }
   } catch {
-    return []
+    return { data: [], error: 'Failed to load assignments. The stored data may be corrupted.' }
   }
 }
 

@@ -13,8 +13,9 @@ export interface Assignment {
   unit: string
   status: AssignmentStatus
   priority: AssignmentPriority
-  dueDate: string   // ISO date string YYYY-MM-DD, empty string if not set
+  dueDate: string        // ISO date string YYYY-MM-DD, empty string if not set
+  description: string   // summary of assignment requirements
   notes: string
-  createdAt: string // ISO timestamp
-  updatedAt: string // ISO timestamp
+  createdAt: string      // ISO timestamp
+  updatedAt: string      // ISO timestamp
 }

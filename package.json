@@ -1,6 +1,6 @@
 {
   "name": "acadence",
-  "version": "0.1.0",
+  "version": "0.6.0",
   "description": "Academic workspace for managing assignments across multiple units",
   "main": "out/main/index.js",
   "author": "Acadence",

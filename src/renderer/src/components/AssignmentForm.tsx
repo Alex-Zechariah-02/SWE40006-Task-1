@@ -23,6 +23,7 @@ export default function AssignmentForm({ initial, onSave, onClose }: AssignmentF
   const [status, setStatus] = useState<AssignmentStatus>(initial?.status ?? 'Not started')
   const [priority, setPriority] = useState<AssignmentPriority>(initial?.priority ?? 'Medium')
   const [dueDate, setDueDate] = useState(initial?.dueDate ?? '')
+  const [description, setDescription] = useState(initial?.description ?? '')
   const [notes, setNotes] = useState(initial?.notes ?? '')
   const [error, setError] = useState('')
 
@@ -40,6 +41,7 @@ export default function AssignmentForm({ initial, onSave, onClose }: AssignmentF
       status,
       priority,
       dueDate,
+      description: description.trim(),
       notes: notes.trim(),
       createdAt: initial?.createdAt ?? now,
       updatedAt: now
@@ -83,6 +85,20 @@ export default function AssignmentForm({ initial, onSave, onClose }: AssignmentF
               value={unit}
               onChange={(e) => setUnit(e.target.value)}
               placeholder="e.g. SWE40006 Software Deployment"
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="field-description">
+              Description
+            </label>
+            <textarea
+              id="field-description"
+              className="form-control"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={2}
+              placeholder="Summarise what this assignment requires"
             />
           </div>
 

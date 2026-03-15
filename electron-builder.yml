@@ -7,12 +7,17 @@ directories:
 files:
   - out/**/*
 
+artifactName: "${productName}-Setup-${version}.${ext}"
+
 npmRebuild: false
 
 win:
   icon: build/icon.ico
   target:
     - target: nsis
+      arch:
+        - x64
+    - target: zip
       arch:
         - x64
 
