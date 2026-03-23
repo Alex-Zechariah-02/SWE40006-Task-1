@@ -1,0 +1,26 @@
+/* Dark mode for Signal Bloom */
+
+.dark.theme-signal-bloom {
+  --accent: #a78bfa;
+  --accent-hover: #c4b5fd;
+  --accent-subtle: rgba(167, 139, 250, 0.12);
+
+  --bg-app: #08040c;
+  --bg-surface: #17101f;
+  --bg-sidebar: #050508;
+  --bg-sidebar-hover: #14141c;
+  --bg-sidebar-active: #111118;
+  --bg-muted: #1f1628;
+
+  --border: rgba(255, 255, 255, 0.18);
+  --border-strong: rgba(255, 255, 255, 0.28);
+  --border-sidebar: #1f1628;
+
+  --text-primary: #fafafa;
+  --text-secondary: #d6d3d1;
+  --text-muted: #a8a29e;
+  --text-sidebar: #e7e5e4;
+  --text-sidebar-active: #ffffff;
+  --text-sidebar-muted: #a8a29e;
+}
+

@@ -2,7 +2,7 @@ import type {
   AssignmentPriority,
   AssignmentStatus,
 } from '../../../types/assignment'
-import type { SelectOption } from '../../../components/controls/CustomSelect'
+import type { SelectOption } from '../../../shared/types/select'
 
 export const STATUS_OPTIONS: AssignmentStatus[] = [
   'Not started',

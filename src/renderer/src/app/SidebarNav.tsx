@@ -1,4 +1,5 @@
-import ThemeIcon from '../components/ThemeIcon'
+import ThemeIcon from '../shared/ui/ThemeIcon'
+import type { IconFamily } from '../types/icon'
 
 type View = 'dashboard' | 'assignments' | 'settings'
 
@@ -7,7 +8,7 @@ interface SidebarNavProps {
   onViewChange: (view: View) => void
   sidebarCollapsed: boolean
   onToggleSidebar: () => void
-  iconFamily: 'phosphor' | 'tabler'
+  iconFamily: IconFamily
 }
 
 export default function SidebarNav({

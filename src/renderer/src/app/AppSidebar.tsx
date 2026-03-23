@@ -1,4 +1,5 @@
 import SidebarNav from './SidebarNav'
+import type { IconFamily } from '../types/icon'
 
 type View = 'dashboard' | 'assignments' | 'settings'
 
@@ -7,7 +8,7 @@ interface AppSidebarProps {
   onViewChange: (view: View) => void
   sidebarCollapsed: boolean
   onToggleSidebar: () => void
-  iconFamily: 'phosphor' | 'tabler'
+  iconFamily: IconFamily
   logoIcon: string
 }
 

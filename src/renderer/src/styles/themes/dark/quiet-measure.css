@@ -1,0 +1,26 @@
+/* Dark mode for Quiet Measure */
+
+.dark.theme-quiet-measure {
+  --accent: #818cf8;
+  --accent-hover: #a5b4fc;
+  --accent-subtle: rgba(129, 140, 248, 0.12);
+
+  --bg-app: #070716;
+  --bg-surface: #15152a;
+  --bg-sidebar: #05050f;
+  --bg-sidebar-hover: #0f0f1f;
+  --bg-sidebar-active: #0b0b18;
+  --bg-muted: #1b1b33;
+
+  --border: rgba(255, 255, 255, 0.18);
+  --border-strong: rgba(255, 255, 255, 0.28);
+  --border-sidebar: #1b1b33;
+
+  --text-primary: #fafafa;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-sidebar: #e7e7f5;
+  --text-sidebar-active: #ffffff;
+  --text-sidebar-muted: #a3a3c2;
+}
+

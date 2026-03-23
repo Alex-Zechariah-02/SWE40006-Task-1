@@ -1,0 +1,31 @@
+/* Dark mode for Vector Slate */
+
+.dark.theme-vector-slate {
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-subtle: rgba(59, 130, 246, 0.12);
+
+  --bg-app: #050508;
+  --bg-surface: #1e293b;
+  --bg-sidebar: #050508;
+  --bg-sidebar-hover: #14141c;
+  --bg-sidebar-active: #111118;
+  --bg-muted: #1e1e28;
+
+  --border: rgba(148, 163, 184, 0.22);
+  --border-strong: #3d3d4e;
+  --border-sidebar: #1e1e28;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #a3b8cc;
+  --text-sidebar: #c8cdd5;
+  --text-sidebar-active: #ffffff;
+  --text-sidebar-muted: #64748b;
+
+  --widget-red: #ef4444;
+  --widget-amber: #f59e0b;
+  --widget-blue: #3b82f6;
+  --widget-green: #10b981;
+}
+

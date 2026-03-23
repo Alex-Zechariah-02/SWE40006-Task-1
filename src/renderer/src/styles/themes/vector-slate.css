@@ -1,0 +1,36 @@
+/* ── Theme: Vector Slate ── */
+
+.theme-vector-slate {
+  --font-display: 'Source Serif 4', serif;
+  --font-heading: 'IBM Plex Sans Condensed', sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --accent: #1e40af;
+  --accent-hover: #1e3a8a;
+  --accent-subtle: rgba(30, 64, 175, 0.08);
+
+  --bg-app: #f1f5f9;
+  --bg-surface: #ffffff;
+  --bg-sidebar: #0f172a;
+  --bg-sidebar-hover: #1e293b;
+  --bg-sidebar-active: #172040;
+  --bg-muted: #eceef1;
+
+  --border: #d8dae0;
+  --border-strong: #c5c8d0;
+  --border-sidebar: #1e293b;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-sidebar: #c8cdd5;
+  --text-sidebar-active: #ffffff;
+  --text-sidebar-muted: #4a4f5a;
+
+  --widget-red: #b91c1c;
+  --widget-amber: #b45309;
+  --widget-blue: #1e40af;
+  --widget-green: #047857;
+}
+

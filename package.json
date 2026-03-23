@@ -1,6 +1,6 @@
 {
   "name": "acadence",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Academic workspace for managing assignments across multiple units",
   "main": "out/main/index.js",
   "author": "Acadence",
@@ -23,18 +23,26 @@
     "format:check": "prettier . --check"
   },
   "dependencies": {
+    "@fontsource-variable/fraunces": "^5.2.9",
+    "@fontsource-variable/instrument-sans": "^5.2.8",
+    "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
+    "@fontsource-variable/recursive": "^5.2.8",
+    "@fontsource/atkinson-hyperlegible-next": "^5.2.7",
     "@fontsource/azeret-mono": "^5.2.11",
     "@fontsource/bricolage-grotesque": "^5.2.10",
+    "@fontsource/hind": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/ibm-plex-sans": "^5.2.8",
     "@fontsource/ibm-plex-sans-condensed": "^5.2.8",
     "@fontsource/newsreader": "^5.2.10",
     "@fontsource/source-serif-4": "^5.2.9",
     "@phosphor-icons/react": "^2.1.10",
+    "@remixicon/react": "^4.9.0",
     "@tabler/icons-react": "^3.40.0",
     "date-fns": "^4.1.0",
     "electron-log": "^5.4.3",
     "electron-updater": "^6.8.3",
+    "iconoir-react": "^7.11.0",
     "motion": "^12.38.0"
   },
   "devDependencies": {

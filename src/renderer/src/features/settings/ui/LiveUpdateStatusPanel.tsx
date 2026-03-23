@@ -1,9 +1,10 @@
-import ThemeIcon from '../../../components/ThemeIcon'
+import ThemeIcon from '../../../shared/ui/ThemeIcon'
 import { formatDistanceToNowStrict } from 'date-fns'
 import { useLiveUpdater } from '../hooks/useLiveUpdater'
+import type { IconFamily } from '../../../types/icon'
 
 interface LiveUpdateStatusPanelProps {
-  iconFamily: 'phosphor' | 'tabler'
+  iconFamily: IconFamily
 }
 
 function formatLastChecked(iso: string) {

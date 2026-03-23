@@ -1,42 +1,17 @@
-export type ThemeId = 'ledgerline' | 'vector-slate'
+export type { ThemeId } from './themeCatalog'
+export { THEME_ICON_FAMILY } from './themeCatalog'
+
+import {
+  DEFAULT_THEME,
+  VALID_THEMES,
+  THEME_CLASSNAMES_ALL,
+  THEME_FONTS,
+  THEME_MIGRATION,
+  THEME_CLASSNAMES,
+} from './themeCatalog'
+import type { ThemeId } from './themeCatalog'
 
 const THEME_KEY = 'acadence-theme'
-const DEFAULT_THEME: ThemeId = 'ledgerline'
-
-const VALID_THEMES = new Set<string>(['ledgerline', 'vector-slate'])
-
-/* Legacy ID migration map */
-const THEME_MIGRATION: Record<string, ThemeId> = {
-  'editorial-control-room': 'ledgerline',
-  'precision-systems-console': 'vector-slate',
-}
-
-interface ThemeFonts {
-  display: string
-  heading: string
-  body: string
-  mono: string
-}
-
-const THEME_FONTS: Record<ThemeId, ThemeFonts> = {
-  ledgerline: {
-    display: "'Newsreader', serif",
-    heading: "'Bricolage Grotesque', sans-serif",
-    body: "'IBM Plex Sans', system-ui, sans-serif",
-    mono: "'Azeret Mono', monospace",
-  },
-  'vector-slate': {
-    display: "'Source Serif 4', serif",
-    heading: "'IBM Plex Sans Condensed', sans-serif",
-    body: "'IBM Plex Sans', system-ui, sans-serif",
-    mono: "'IBM Plex Mono', monospace",
-  },
-}
-
-export const THEME_ICON_FAMILY: Record<ThemeId, 'phosphor' | 'tabler'> = {
-  ledgerline: 'phosphor',
-  'vector-slate': 'tabler',
-}
 
 export function loadTheme(): ThemeId {
   try {
@@ -74,9 +49,9 @@ export function applyTheme(theme: ThemeId): void {
   root.style.setProperty('--font-body', fonts.body)
   root.style.setProperty('--font-mono', fonts.mono)
 
-  // Apply theme class for color tokens (ledgerline is the :root default, no class needed)
-  root.classList.remove('theme-vector-slate')
-  if (theme === 'vector-slate') {
-    root.classList.add('theme-vector-slate')
-  }
+  // Apply theme classes for color tokens (ledgerline is the :root default, no class needed)
+  for (const cls of THEME_CLASSNAMES_ALL) root.classList.remove(cls)
+
+  const className = THEME_CLASSNAMES[theme]
+  if (className) root.classList.add(className)
 }

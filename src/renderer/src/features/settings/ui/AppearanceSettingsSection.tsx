@@ -1,5 +1,5 @@
-import CustomSelect from '../../../components/controls/CustomSelect'
-import ThemePreviewGrid from '../../../components/ThemePreviewGrid'
+import CustomSelect from '../../../shared/ui/controls/CustomSelect'
+import ThemePreviewGrid from './ThemePreviewGrid'
 import type {
   ThemeId,
   ColorMode,

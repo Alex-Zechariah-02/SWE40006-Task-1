@@ -1,0 +1,36 @@
+/* ── Theme: Quiet Measure ── */
+
+.theme-quiet-measure {
+  --font-display: 'Newsreader', serif;
+  --font-heading: 'Instrument Sans Variable', sans-serif;
+  --font-body: 'Atkinson Hyperlegible Next', sans-serif;
+  --font-mono: 'Recursive Variable', monospace;
+
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-subtle: rgba(99, 102, 241, 0.1);
+
+  --bg-app: #fafaf9;
+  --bg-surface: #ffffff;
+  --bg-sidebar: #1a1a2e;
+  --bg-sidebar-hover: #23234a;
+  --bg-sidebar-active: #1f1f3d;
+  --bg-muted: #f5f5f4;
+
+  --border: #e7e5e4;
+  --border-strong: #d6d3d1;
+  --border-sidebar: #2b2b55;
+
+  --text-primary: #0c0a09;
+  --text-secondary: #57534e;
+  --text-muted: #a8a29e;
+  --text-sidebar: #e7e7f5;
+  --text-sidebar-active: #ffffff;
+  --text-sidebar-muted: #a3a3c2;
+
+  --widget-red: #e11d48;
+  --widget-amber: #eab308;
+  --widget-blue: #6366f1;
+  --widget-green: #059669;
+}
+

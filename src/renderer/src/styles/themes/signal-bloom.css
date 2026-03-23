@@ -1,0 +1,36 @@
+/* ── Theme: Signal Bloom ── */
+
+.theme-signal-bloom {
+  --font-display: 'Fraunces Variable', serif;
+  --font-heading: 'Plus Jakarta Sans Variable', sans-serif;
+  --font-body: 'Hind', sans-serif;
+  --font-mono: 'Recursive Variable', monospace;
+
+  --accent: #7c3aed;
+  --accent-hover: #6d28d9;
+  --accent-subtle: rgba(124, 58, 237, 0.1);
+
+  --bg-app: #fafaf9;
+  --bg-surface: #ffffff;
+  --bg-sidebar: #0c0a09;
+  --bg-sidebar-hover: #1c1917;
+  --bg-sidebar-active: #14110f;
+  --bg-muted: #f5f5f4;
+
+  --border: #e7e5e4;
+  --border-strong: #d6d3d1;
+  --border-sidebar: #1c1917;
+
+  --text-primary: #0c0a09;
+  --text-secondary: #57534e;
+  --text-muted: #a8a29e;
+  --text-sidebar: #e7e5e4;
+  --text-sidebar-active: #ffffff;
+  --text-sidebar-muted: #78716c;
+
+  --widget-red: #ef4444;
+  --widget-amber: #f59e0b;
+  --widget-blue: #7c3aed;
+  --widget-green: #10b981;
+}
+

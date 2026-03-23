@@ -1,5 +1,5 @@
-import CustomSelect from '../../../components/controls/CustomSelect'
-import type { SelectOption } from '../../../components/controls/CustomSelect'
+import CustomSelect from '../../../shared/ui/controls/CustomSelect'
+import type { SelectOption } from '../../../shared/types/select'
 import type {
   AssignmentPriority,
   AssignmentStatus,

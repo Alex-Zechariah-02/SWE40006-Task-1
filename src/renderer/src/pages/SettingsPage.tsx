@@ -8,12 +8,11 @@ import type {
   ColorPresence,
   NotificationPosition,
 } from '../services/theme'
-import { useAssignments } from '../context/assignments/AssignmentContext'
+import type { IconFamily } from '../types/icon'
+import { useAssignments } from '../features/assignments/state/AssignmentContext'
 import { RELEASES_URL } from '../services/release'
-import { toast } from '../components/ToastContainer'
-import SettingsTabNav, {
-  type SettingsTab,
-} from '../components/settings/SettingsTabNav'
+import { toast } from '../shared/ui/ToastContainer'
+import SettingsTabNav, { type SettingsTab } from '../features/settings/ui/SettingsTabNav'
 import GeneralSettingsSection from '../features/settings/ui/GeneralSettingsSection'
 import AppearanceSettingsSection from '../features/settings/ui/AppearanceSettingsSection'
 import UpdatesSettingsSection from '../features/settings/ui/UpdatesSettingsSection'
@@ -59,7 +58,7 @@ interface SettingsPageProps {
   onColorPresenceChange: (presence: ColorPresence) => void
   notificationPosition: NotificationPosition
   onNotificationPositionChange: (position: NotificationPosition) => void
-  iconFamily: 'phosphor' | 'tabler'
+  iconFamily: IconFamily
 }
 
 export default function SettingsPage({

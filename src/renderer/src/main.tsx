@@ -21,6 +21,20 @@ import '@fontsource/ibm-plex-mono/500.css'
 import '@fontsource/source-serif-4/400.css'
 import '@fontsource/source-serif-4/700.css'
 
+import '@fontsource-variable/instrument-sans'
+import '@fontsource-variable/recursive'
+import '@fontsource-variable/fraunces'
+import '@fontsource-variable/plus-jakarta-sans'
+
+import '@fontsource/atkinson-hyperlegible-next/400.css'
+import '@fontsource/atkinson-hyperlegible-next/600.css'
+import '@fontsource/atkinson-hyperlegible-next/700.css'
+
+import '@fontsource/hind/400.css'
+import '@fontsource/hind/500.css'
+import '@fontsource/hind/600.css'
+import '@fontsource/hind/700.css'
+
 import './styles/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

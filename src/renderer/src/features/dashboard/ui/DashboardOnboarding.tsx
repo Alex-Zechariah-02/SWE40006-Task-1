@@ -1,4 +1,4 @@
-import CustomSelect from '../../../components/controls/CustomSelect'
+import CustomSelect from '../../../shared/ui/controls/CustomSelect'
 import type { ThemeId } from '../../../services/theme'
 
 const THEME_OPTIONS = [

@@ -1,14 +1,15 @@
-import ThemeIcon from '../../../components/ThemeIcon'
-import UpdateLogPanel from '../../../components/UpdateLogPanel'
+import ThemeIcon from '../../../shared/ui/ThemeIcon'
+import UpdateLogPanel from './UpdateLogPanel'
 import LiveUpdateStatusPanel from './LiveUpdateStatusPanel'
 import type { UpdateEntry } from '../../../types/update'
+import type { IconFamily } from '../../../types/icon'
 
 interface UpdatesSettingsSectionProps {
   lastOpenedUpdates: string | null
   onOpenReleases: () => void | Promise<void>
   releaseEntries: UpdateEntry[]
   releasesUrl: string
-  iconFamily: 'phosphor' | 'tabler'
+  iconFamily: IconFamily
 }
 
 export default function UpdatesSettingsSection({

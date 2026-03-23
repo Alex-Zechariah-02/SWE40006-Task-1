@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { toast } from '../../../components/ToastContainer'
+import { toast } from '../../../shared/ui/ToastContainer'
 import type { UpdaterSnapshot, UpdaterStatus } from '../../../types/updater'
 
 function describeStatus(status: UpdaterStatus) {

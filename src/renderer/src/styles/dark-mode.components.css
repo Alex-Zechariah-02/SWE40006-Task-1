@@ -1,0 +1,32 @@
+/* Dark mode component overrides for hard-coded colours */
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #52525b;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #71717a;
+}
+.dark .form-success {
+  background: #052e16;
+  border-color: #065f46;
+  color: #34d399;
+}
+.dark .form-control {
+  background: var(--bg-muted);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+.dark .filter-select {
+  background: var(--bg-muted);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+.dark .filter-search {
+  background: var(--bg-muted);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+.dark .modal-overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+

@@ -1,5 +1,5 @@
 import type { Assignment } from '../../../types/assignment'
-import ImportExportControls from '../../../components/ImportExportControls'
+import ImportExportControls from './ImportExportControls'
 
 interface GeneralSettingsSectionProps {
   assignments: Assignment[]
