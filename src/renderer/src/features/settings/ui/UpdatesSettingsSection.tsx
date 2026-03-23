@@ -1,5 +1,6 @@
 import ThemeIcon from '../../../components/ThemeIcon'
 import UpdateLogPanel from '../../../components/UpdateLogPanel'
+import LiveUpdateStatusPanel from './LiveUpdateStatusPanel'
 import type { UpdateEntry } from '../../../types/update'
 
 interface UpdatesSettingsSectionProps {
@@ -57,6 +58,15 @@ export default function UpdatesSettingsSection({
             />
             Open releases
           </button>
+        </div>
+      </div>
+
+      <div className="settings-section-title" style={{ marginTop: 0 }}>
+        Update status
+      </div>
+      <div className="settings-row" style={{ borderBottom: 'none' }}>
+        <div style={{ width: '100%' }}>
+          <LiveUpdateStatusPanel iconFamily={iconFamily} />
         </div>
       </div>
 

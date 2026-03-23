@@ -5,6 +5,7 @@ import AssignmentsPage from './pages/AssignmentsPage'
 import SettingsPage from './pages/SettingsPage'
 import { AssignmentProvider } from './context/assignments/AssignmentContext'
 import ToastContainer from './components/ToastContainer'
+import UpdaterToastListener from './components/UpdaterToastListener'
 import logoIcon from '../../../build/icon.png'
 import AppShell from './app/AppShell'
 import AppSidebar from './app/AppSidebar'
@@ -121,6 +122,7 @@ function App() {
         </AnimatePresence>
 
         <ToastContainer position={notificationPosition} />
+        <UpdaterToastListener />
       </AppShell>
     </AssignmentProvider>
   )

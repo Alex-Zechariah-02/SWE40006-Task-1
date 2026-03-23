@@ -1,6 +1,8 @@
 import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron'
 import { join } from 'path'
 import { readFile, writeFile } from 'fs/promises'
+import { registerUpdaterIpc } from './updater/registerUpdaterIpc'
+import { setupUpdater } from './updater/setupUpdater'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -74,6 +76,8 @@ ipcMain.handle('open-external', async (_event, url: string) => {
 
 app.whenReady().then(() => {
   createWindow()
+  registerUpdaterIpc()
+  setupUpdater()
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

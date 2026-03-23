@@ -50,7 +50,19 @@ jobs:
             gh release create $tag --repo $repo --title $tag --notes ""
           }
 
-          gh release upload $tag release/*.exe release/*.msi release/*.zip --repo $repo --clobber
+          $upload = @()
+          $upload += Get-ChildItem -LiteralPath release -File -Filter *.exe -ErrorAction SilentlyContinue
+          $upload += Get-ChildItem -LiteralPath release -File -Filter *.msi -ErrorAction SilentlyContinue
+          $upload += Get-ChildItem -LiteralPath release -File -Filter *.zip -ErrorAction SilentlyContinue
+          $upload += Get-ChildItem -LiteralPath release -File -Filter latest*.yml -ErrorAction SilentlyContinue
+          $upload += Get-ChildItem -LiteralPath release -File -Filter *.blockmap -ErrorAction SilentlyContinue
+
+          $uploadPaths = $upload | ForEach-Object { $_.FullName } | Select-Object -Unique
+          if (!$uploadPaths -or $uploadPaths.Count -eq 0) {
+            throw "No release assets found to upload from release/"
+          }
+
+          gh release upload $tag $uploadPaths --repo $repo --clobber
 
       - name: Upload EXE artifact (Actions run Artifacts)
         uses: actions/upload-artifact@v6
@@ -71,4 +83,13 @@ jobs:
         with:
           name: acadence-windows-zip-${{ github.ref_name }}
           path: release/*.zip
+          if-no-files-found: error
+
+      - name: Upload updater metadata (Actions run Artifacts)
+        uses: actions/upload-artifact@v6
+        with:
+          name: acadence-windows-updater-metadata-${{ github.ref_name }}
+          path: |
+            release/latest*.yml
+            release/*.blockmap
           if-no-files-found: error

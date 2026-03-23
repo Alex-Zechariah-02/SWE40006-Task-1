@@ -1,5 +1,7 @@
 /// <reference types="vite/client" />
 
+import type { UpdaterSnapshot } from './types/updater'
+
 export {}
 
 declare global {
@@ -11,6 +13,15 @@ declare global {
       exportFile: (content: string, defaultName: string) => Promise<boolean>
       importFile: () => Promise<string | null>
       openExternal: (url: string) => Promise<boolean>
+      updater: {
+        getSnapshot: () => Promise<UpdaterSnapshot>
+        checkForUpdates: () => Promise<void>
+        downloadUpdate: () => Promise<void>
+        quitAndInstall: () => Promise<void>
+        onSnapshot: (
+          cb: (snapshot: UpdaterSnapshot) => void,
+        ) => () => void
+      }
     }
   }
 }
