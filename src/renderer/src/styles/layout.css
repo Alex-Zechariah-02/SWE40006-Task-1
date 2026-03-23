@@ -1,0 +1,17 @@
+/* ── Layout ── */
+
+.app {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+/* ── Main content ── */
+
+.main-content {
+  flex: 1;
+  overflow: auto;
+  overflow-x: hidden;
+  padding: var(--content-padding);
+  background: var(--bg-app);
+}

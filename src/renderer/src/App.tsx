@@ -1,128 +1,128 @@
 import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import DashboardPage from './pages/DashboardPage'
 import AssignmentsPage from './pages/AssignmentsPage'
-import ThemesPage from './pages/ThemesPage'
 import SettingsPage from './pages/SettingsPage'
-import { loadTheme, saveTheme, applyTheme, type ThemeId } from './services/theme'
+import { AssignmentProvider } from './context/assignments/AssignmentContext'
+import ToastContainer from './components/ToastContainer'
+import logoIcon from '../../../build/icon.png'
+import AppShell from './app/AppShell'
+import AppSidebar from './app/AppSidebar'
+import { useAppPreferences } from './app/useAppPreferences'
+import { useSidebarCollapse } from './app/useSidebarCollapse'
 
-type View = 'dashboard' | 'assignments' | 'themes' | 'settings'
-type Density = 'compact' | 'balanced' | 'spacious'
-
-const DENSITY_KEY = 'acadence-density'
-
-function loadDensity(): Density {
-  try {
-    const saved = localStorage.getItem(DENSITY_KEY)
-    if (saved === 'compact') return 'compact'
-    if (saved === 'balanced') return 'balanced'
-    if (saved === 'spacious') return 'spacious'
-    // Migrate old values from v0.6.0
-    if (saved === 'comfortable') return 'spacious'
-    // 'default' or anything unrecognised → 'balanced'
-  } catch {
-    // ignore
-  }
-  return 'balanced'
-}
+type View = 'dashboard' | 'assignments' | 'settings'
 
 function App() {
   const [view, setView] = useState<View>('dashboard')
-  const [density, setDensity] = useState<Density>(() => loadDensity())
-  const [theme, setTheme] = useState<ThemeId>(() => loadTheme())
+  const {
+    theme,
+    setTheme,
+    colorMode,
+    setColorMode,
+    motionPreference,
+    setMotionPreference,
+    overlayBlur,
+    setOverlayBlur,
+    fontSize,
+    setFontSize,
+    colorPresence,
+    setColorPresence,
+    notificationPosition,
+    setNotificationPosition,
+    iconFamily,
+    motionConfig: mc,
+  } = useAppPreferences()
 
-  // Apply density class to body
+  const { appRef, sidebarCollapsed, toggleSidebar } = useSidebarCollapse()
+
   useEffect(() => {
-    const body = document.body
-    body.classList.remove('density-compact', 'density-spacious')
-    if (density === 'compact') body.classList.add('density-compact')
-    if (density === 'spacious') body.classList.add('density-spacious')
+    /* Remove the legacy localStorage key that is no longer used by the final settings model. */
     try {
-      localStorage.setItem(DENSITY_KEY, density)
+      localStorage.removeItem('acadence-density')
     } catch {
-      // ignore
+      /* ignore */
     }
-  }, [density])
-
-  // Apply and persist theme
-  useEffect(() => {
-    applyTheme(theme)
-    saveTheme(theme)
-  }, [theme])
+  }, [])
 
   return (
-    <div className="app">
-      <nav className="sidebar">
-        <div className="app-brand">
-          <div className="app-name">Acadence</div>
-          <div className="app-tagline">Academic workspace</div>
-        </div>
-
-        <div className="nav-section">
-          <div className="nav-section-label">Workspace</div>
-          <ul className="nav-links">
-            <li>
-              <button
-                className={view === 'dashboard' ? 'active' : ''}
-                onClick={() => setView('dashboard')}
-              >
-                Dashboard
-              </button>
-            </li>
-            <li>
-              <button
-                className={view === 'assignments' ? 'active' : ''}
-                onClick={() => setView('assignments')}
-              >
-                Assignments
-              </button>
-            </li>
-            <li>
-              <button
-                className={view === 'themes' ? 'active' : ''}
-                onClick={() => setView('themes')}
-              >
-                Themes
-              </button>
-            </li>
-          </ul>
-        </div>
-
-        <div className="sidebar-footer">
-          <ul className="nav-links">
-            <li>
-              <button
-                className={view === 'settings' ? 'active' : ''}
-                onClick={() => setView('settings')}
-              >
-                Settings
-              </button>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-      <main className="main-content">
-        {view === 'dashboard' && (
-          <DashboardPage
-            density={density}
-            onDensityChange={setDensity}
-            onNavigate={() => setView('assignments')}
-            theme={theme}
-            onThemeChange={setTheme}
+    <AssignmentProvider>
+      <AppShell
+        appRef={appRef}
+        sidebar={
+          <AppSidebar
+            view={view}
+            onViewChange={setView}
+            sidebarCollapsed={sidebarCollapsed}
+            onToggleSidebar={toggleSidebar}
+            iconFamily={iconFamily}
+            logoIcon={logoIcon}
           />
-        )}
-        {view === 'assignments' && <AssignmentsPage />}
-        {view === 'themes' && <ThemesPage />}
-        {view === 'settings' && (
-          <SettingsPage
-            density={density}
-            onDensityChange={setDensity}
-            theme={theme}
-            onThemeChange={setTheme}
-          />
-        )}
-      </main>
-    </div>
+        }
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          {view === 'dashboard' && (
+            <motion.div
+              key="dashboard"
+              initial={{ opacity: 0, y: mc.y }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -mc.y / 2 }}
+              transition={{ duration: mc.duration, ease: [0.25, 1, 0.5, 1] }}
+            >
+              <DashboardPage
+                onNavigate={() => setView('assignments')}
+                theme={theme}
+                onThemeChange={setTheme}
+                iconFamily={iconFamily}
+              />
+            </motion.div>
+          )}
+          {view === 'assignments' && (
+            <motion.div
+              key="assignments"
+              initial={{ opacity: 0, y: mc.y }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -mc.y / 2 }}
+              transition={{ duration: mc.duration, ease: [0.25, 1, 0.5, 1] }}
+            >
+              <AssignmentsPage
+                iconFamily={iconFamily}
+                overlayBlur={overlayBlur}
+              />
+            </motion.div>
+          )}
+          {view === 'settings' && (
+            <motion.div
+              key="settings"
+              initial={{ opacity: 0, y: mc.y }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -mc.y / 2 }}
+              transition={{ duration: mc.duration, ease: [0.25, 1, 0.5, 1] }}
+            >
+              <SettingsPage
+                theme={theme}
+                onThemeChange={setTheme}
+                colorMode={colorMode}
+                onColorModeChange={setColorMode}
+                motionPreference={motionPreference}
+                onMotionPreferenceChange={setMotionPreference}
+                overlayBlur={overlayBlur}
+                onOverlayBlurChange={setOverlayBlur}
+                fontSize={fontSize}
+                onFontSizeChange={setFontSize}
+                colorPresence={colorPresence}
+                onColorPresenceChange={setColorPresence}
+                notificationPosition={notificationPosition}
+                onNotificationPositionChange={setNotificationPosition}
+                iconFamily={iconFamily}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <ToastContainer position={notificationPosition} />
+      </AppShell>
+    </AssignmentProvider>
   )
 }
 

@@ -1,0 +1,100 @@
+/* ── Milestone list ── */
+
+.milestone-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.milestone-progress-section {
+  margin-bottom: var(--space-sm);
+}
+
+.milestone-progress-bar {
+  height: 6px;
+  background: var(--bg-muted);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.milestone-progress-fill {
+  height: 100%;
+  background: var(--widget-green);
+  border-radius: 3px;
+  transition: width 200ms ease;
+}
+
+.milestone-progress,
+.milestone-progress-text {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.milestone-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+}
+
+.milestone-checkbox {
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.milestone-title {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.milestone-title--done {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.milestone-delete {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 4px;
+  line-height: 1;
+  opacity: 0;
+  transition:
+    opacity 100ms,
+    color 100ms;
+}
+
+.milestone-item:hover .milestone-delete {
+  opacity: 1;
+}
+
+.milestone-delete:hover {
+  color: var(--danger);
+}
+
+.milestone-add-form {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.milestone-add-form input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  outline: none;
+}
+
+.milestone-add-form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}

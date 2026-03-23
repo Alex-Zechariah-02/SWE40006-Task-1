@@ -1,0 +1,57 @@
+/* ── Overlay drawer ── */
+
+.detail-panel--overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(420px, 85vw);
+  z-index: 100;
+  background: var(--bg-surface);
+  border-left: 1px solid var(--border);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  padding: var(--space-md);
+  padding-bottom: var(--space-xl);
+}
+
+/* Overlay detail: vertical tabs */
+.detail-panel--overlay .detail-tabs {
+  flex-direction: column;
+  border-bottom: none;
+  gap: 2px;
+  margin-bottom: var(--space-md);
+}
+
+.detail-panel--overlay .detail-tab {
+  border-bottom: none;
+  border-left: 2px solid transparent;
+  margin-bottom: 0;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-xs);
+}
+
+.detail-panel--overlay .detail-tab--active {
+  border-left-color: var(--accent);
+  border-bottom-color: transparent;
+  background: var(--accent-subtle);
+}
+
+.overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  backdrop-filter: blur(var(--overlay-blur));
+  -webkit-backdrop-filter: blur(var(--overlay-blur));
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* ── Overlay blur utilities ── */
+.overlay-blur-subtle {
+  --overlay-blur: 4px;
+}
+.overlay-blur-medium {
+  --overlay-blur: 8px;
+}

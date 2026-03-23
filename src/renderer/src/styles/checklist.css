@@ -1,0 +1,119 @@
+/* ── Submission checklist ── */
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.checklist-progress-section {
+  margin-bottom: var(--space-sm);
+}
+
+.checklist-progress,
+.checklist-progress-text {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+}
+
+.checklist-checkbox {
+  flex-shrink: 0;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.checklist-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.checklist-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+.checklist-label--done {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.checklist-note {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.checklist-link {
+  font-size: var(--font-size-xs);
+  color: var(--accent);
+  text-decoration: none;
+  margin-top: 2px;
+  display: block;
+}
+
+.checklist-link:hover {
+  text-decoration: underline;
+}
+
+.checklist-delete {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 4px;
+  line-height: 1;
+  opacity: 0;
+  transition:
+    opacity 100ms,
+    color 100ms;
+  flex-shrink: 0;
+}
+
+.checklist-item:hover .checklist-delete {
+  opacity: 1;
+}
+
+.checklist-delete:hover {
+  color: var(--danger);
+}
+
+.checklist-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--bg-app);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.checklist-add-form input {
+  padding: 6px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  outline: none;
+}
+
+.checklist-add-form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+.checklist-add-actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+}

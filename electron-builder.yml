@@ -7,7 +7,7 @@ directories:
 files:
   - out/**/*
 
-artifactName: "${productName}-Setup-${version}.${ext}"
+artifactName: '${productName}-${version}-${arch}.${ext}'
 
 npmRebuild: false
 
@@ -20,11 +20,29 @@ win:
     - target: zip
       arch:
         - x64
+    - target: msi
+      arch:
+        - x64
+  publish:
+    - provider: github
+      owner: Alex-Zechariah-02
+      repo: SWE40006-Task-1
 
 nsis:
-  oneClick: true
+  oneClick: false
+  allowToChangeInstallationDirectory: true
   perMachine: false
   shortcutName: Acadence
   uninstallDisplayName: Acadence
   createDesktopShortcut: always
+  createStartMenuShortcut: true
+  menuCategory: Acadence
   deleteAppDataOnUninstall: false
+
+msi:
+  oneClick: false
+  perMachine: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  menuCategory: Acadence
+  shortcutName: Acadence

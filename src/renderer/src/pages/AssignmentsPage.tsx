@@ -1,81 +1,87 @@
 import { useMemo, useState } from 'react'
-import type { Assignment, AssignmentStatus, AssignmentPriority } from '../types/assignment'
-import { loadAssignments, saveAssignments } from '../services/storage'
-import { daysUntilDue, priorityWeight } from '../services/date'
+import { motion, AnimatePresence } from 'motion/react'
+import type { Assignment, Milestone, ChecklistItem } from '../types/assignment'
+import { useAssignments } from '../context/assignments/AssignmentContext'
 import AssignmentForm from '../components/AssignmentForm'
-import AssignmentList from '../components/AssignmentList'
+import AssignmentList from '../components/assignment/AssignmentList'
+import AssignmentDetail from '../components/assignment/AssignmentDetail'
+import CalendarView from '../components/CalendarView'
+import KanbanView from '../components/KanbanView'
 import ErrorBanner from '../components/ErrorBanner'
+import ConfirmDialog from '../components/ConfirmDialog'
+import { useResponsiveLayout } from '../hooks/useResponsiveLayout'
+import { useAssignmentViewState } from '../features/assignments/hooks/useAssignmentViewState'
+import { useAssignmentFilters } from '../features/assignments/hooks/useAssignmentFilters'
+import { filterAndSortAssignments } from '../features/assignments/selectors/assignmentFilters'
+import AssignmentsToolbar from '../features/assignments/ui/AssignmentsToolbar'
+import AssignmentsFilterBar from '../features/assignments/ui/AssignmentsFilterBar'
+import AssignmentOverlayDrawer from '../features/assignments/ui/AssignmentOverlayDrawer'
 
-const STATUS_OPTIONS: AssignmentStatus[] = [
-  'Not started',
-  'In progress',
-  'Review',
-  'Waiting',
-  'Completed'
-]
+interface AssignmentsPageProps {
+  iconFamily?: 'phosphor' | 'tabler'
+  overlayBlur?: string
+}
 
-const PRIORITY_OPTIONS: AssignmentPriority[] = ['Low', 'Medium', 'High', 'Urgent']
-
-type SortBy = 'dueDate' | 'priority' | 'title'
-
-export default function AssignmentsPage() {
-  const [loadResult] = useState(() => loadAssignments())
-  const [loadError, setLoadError] = useState<string | null>(loadResult.error)
-  const [assignments, setAssignments] = useState<Assignment[]>(loadResult.data)
+export default function AssignmentsPage({
+  iconFamily = 'phosphor',
+  overlayBlur,
+}: AssignmentsPageProps) {
+  const {
+    assignments,
+    loadError: contextLoadError,
+    dispatch,
+  } = useAssignments()
+  const [loadError, setLoadError] = useState<string | null>(contextLoadError)
   const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState<Assignment | null>(null)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const { viewMode, setViewMode } = useAssignmentViewState()
 
-  // Search and filter state
-  const [search, setSearch] = useState('')
-  const [filterUnit, setFilterUnit] = useState('')
-  const [filterStatus, setFilterStatus] = useState<AssignmentStatus | ''>('')
-  const [filterPriority, setFilterPriority] = useState<AssignmentPriority | ''>('')
-  const [sortBy, setSortBy] = useState<SortBy>('dueDate')
+  const { ref: contentRef, compact, width } = useResponsiveLayout()
+  const {
+    search,
+    setSearch,
+    filterUnit,
+    setFilterUnit,
+    filterStatus,
+    setFilterStatus,
+    filterPriority,
+    setFilterPriority,
+    sortBy,
+    setSortBy,
+    groupBy,
+    setGroupBy,
+    hasActiveFilters,
+    clearFilters,
+    unitSelectOptions,
+    statusSelectOptions,
+    prioritySelectOptions,
+    sortSelectOptions,
+    groupBySelectOptions,
+  } = useAssignmentFilters(assignments)
 
-  // Derive sorted + filtered list
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    return assignments
-      .filter((a) => {
-        if (q && !a.title.toLowerCase().includes(q) && !a.unit.toLowerCase().includes(q)) {
-          return false
-        }
-        if (filterUnit && a.unit !== filterUnit) return false
-        if (filterStatus && a.status !== filterStatus) return false
-        if (filterPriority && a.priority !== filterPriority) return false
-        return true
-      })
-      .sort((a, b) => {
-        if (sortBy === 'dueDate') {
-          const da = daysUntilDue(a.dueDate)
-          const db = daysUntilDue(b.dueDate)
-          if (da === null && db === null) return 0
-          if (da === null) return 1
-          if (db === null) return -1
-          return da - db
-        }
-        if (sortBy === 'priority') {
-          return priorityWeight(a.priority) - priorityWeight(b.priority)
-        }
-        // title
-        return a.title.localeCompare(b.title)
-      })
+    return filterAndSortAssignments(assignments, {
+      search,
+      filterUnit,
+      filterStatus,
+      filterPriority,
+      sortBy,
+    })
   }, [assignments, search, filterUnit, filterStatus, filterPriority, sortBy])
 
-  // Derive unique units for filter dropdown
-  const unitOptions = useMemo(() => {
-    const units = Array.from(new Set(assignments.map((a) => a.unit).filter(Boolean)))
-    return units.sort()
-  }, [assignments])
+  const selectedAssignment = selectedId
+    ? (assignments.find((a) => a.id === selectedId) ?? null)
+    : null
 
-  const hasActiveFilters = search || filterUnit || filterStatus || filterPriority
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
 
   function handleSave(assignment: Assignment) {
-    const updated = editing
-      ? assignments.map((a) => (a.id === assignment.id ? assignment : a))
-      : [...assignments, assignment]
-    setAssignments(updated)
-    saveAssignments(updated)
+    if (editing) {
+      dispatch({ type: 'UPDATE', assignment })
+    } else {
+      dispatch({ type: 'ADD', assignment })
+    }
     setFormOpen(false)
     setEditing(null)
   }
@@ -86,10 +92,15 @@ export default function AssignmentsPage() {
   }
 
   function handleDelete(id: string) {
-    if (!window.confirm('Delete this assignment permanently?')) return
-    const updated = assignments.filter((a) => a.id !== id)
-    setAssignments(updated)
-    saveAssignments(updated)
+    setConfirmDeleteId(id)
+  }
+
+  function confirmDelete() {
+    if (confirmDeleteId) {
+      dispatch({ type: 'DELETE', id: confirmDeleteId })
+      if (selectedId === confirmDeleteId) setSelectedId(null)
+    }
+    setConfirmDeleteId(null)
   }
 
   function handleClose() {
@@ -102,131 +113,218 @@ export default function AssignmentsPage() {
     setFormOpen(true)
   }
 
-  function clearFilters() {
-    setSearch('')
-    setFilterUnit('')
-    setFilterStatus('')
-    setFilterPriority('')
+  function handleSelect(assignment: Assignment) {
+    setSelectedId(assignment.id)
+  }
+
+  function handleCloseDetail() {
+    setSelectedId(null)
   }
 
   const total = assignments.length
   const shown = filtered.length
+  const listCompact = width < 900
+
+  const isOverlay = !!selectedAssignment
+
+  const motionEnabled =
+    !document.documentElement.classList.contains('motion-none')
+  const reduced = document.documentElement.classList.contains('motion-reduced')
 
   return (
-    <div>
-      <div className="page-toolbar">
-        <div className="page-header">
-          <h1 className="page-title">Assignments</h1>
-          <p className="page-subtitle">
-            {total === 0
-              ? 'No assignments'
-              : shown === total
-                ? `${total} assignment${total !== 1 ? 's' : ''}`
-                : `${shown} of ${total} shown`}
-          </p>
-        </div>
-        <button className="btn btn-primary" onClick={handleAdd}>
-          Create assignment
-        </button>
+    <div className="assignments-page-layout" ref={contentRef}>
+      <div className="assignments-main">
+        <AssignmentsToolbar
+          total={total}
+          shown={shown}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+          compact={compact}
+          onAdd={handleAdd}
+        />
+
+        {loadError && (
+          <ErrorBanner
+            message={loadError}
+            onDismiss={() => setLoadError(null)}
+          />
+        )}
+
+        {total > 0 && viewMode === 'list' && (
+          <AssignmentsFilterBar
+            search={search}
+            onSearchChange={setSearch}
+            filterUnit={filterUnit}
+            onFilterUnitChange={setFilterUnit}
+            filterStatus={filterStatus}
+            onFilterStatusChange={setFilterStatus}
+            filterPriority={filterPriority}
+            onFilterPriorityChange={setFilterPriority}
+            sortBy={sortBy}
+            onSortByChange={setSortBy}
+            groupBy={groupBy}
+            onGroupByChange={setGroupBy}
+            unitSelectOptions={unitSelectOptions}
+            statusSelectOptions={statusSelectOptions}
+            prioritySelectOptions={prioritySelectOptions}
+            sortSelectOptions={sortSelectOptions}
+            groupBySelectOptions={groupBySelectOptions}
+            hasActiveFilters={!!hasActiveFilters}
+            onClear={clearFilters}
+          />
+        )}
+
+        <AnimatePresence mode="wait" initial={false}>
+          {viewMode === 'list' && (
+            <motion.div
+              key="list"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: motionEnabled ? (reduced ? 0.06 : 0.12) : 0,
+              }}
+            >
+              <AssignmentList
+                assignments={filtered}
+                groupBy={groupBy}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onSelect={handleSelect}
+                selectedId={selectedId ?? undefined}
+                emptyMessage={
+                  hasActiveFilters
+                    ? 'No assignments match your current filters.'
+                    : 'No assignments yet. Create your first assignment to get started.'
+                }
+                iconFamily={iconFamily}
+                compact={listCompact}
+              />
+            </motion.div>
+          )}
+
+          {viewMode === 'calendar' && (
+            <motion.div
+              key="calendar"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: motionEnabled ? (reduced ? 0.06 : 0.12) : 0,
+              }}
+            >
+              <CalendarView
+                assignments={filtered}
+                onSelect={handleSelect}
+                iconFamily={iconFamily}
+              />
+            </motion.div>
+          )}
+
+          {viewMode === 'kanban' && (
+            <motion.div
+              key="kanban"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: motionEnabled ? (reduced ? 0.06 : 0.12) : 0,
+              }}
+            >
+              <KanbanView
+                assignments={filtered}
+                onSelect={handleSelect}
+                iconFamily={iconFamily}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {formOpen && (
+            <AssignmentForm
+              initial={editing ?? undefined}
+              onSave={handleSave}
+              onClose={handleClose}
+            />
+          )}
+        </AnimatePresence>
       </div>
 
-      {loadError && (
-        <ErrorBanner message={loadError} onDismiss={() => setLoadError(null)} />
-      )}
-
-      {total > 0 && (
-        <div className="filter-bar">
-          <input
-            className="filter-search"
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by title or unit..."
-            aria-label="Search assignments"
+      {/* Overlay drawer mode for the selected assignment */}
+      <AssignmentOverlayDrawer
+        open={isOverlay}
+        onClose={handleCloseDetail}
+        overlayBlur={overlayBlur}
+      >
+        {selectedAssignment && (
+          <AssignmentDetail
+            assignment={selectedAssignment}
+            onClose={handleCloseDetail}
+            onEdit={handleEdit}
+            onAddMilestone={(m: Milestone) =>
+              dispatch({
+                type: 'ADD_MILESTONE',
+                assignmentId: selectedAssignment.id,
+                milestone: m,
+              })
+            }
+            onToggleMilestone={(id: string) =>
+              dispatch({
+                type: 'TOGGLE_MILESTONE',
+                assignmentId: selectedAssignment.id,
+                milestoneId: id,
+              })
+            }
+            onDeleteMilestone={(id: string) =>
+              dispatch({
+                type: 'DELETE_MILESTONE',
+                assignmentId: selectedAssignment.id,
+                milestoneId: id,
+              })
+            }
+            onAddChecklistItem={(item: ChecklistItem) =>
+              dispatch({
+                type: 'ADD_CHECKLIST_ITEM',
+                assignmentId: selectedAssignment.id,
+                item,
+              })
+            }
+            onToggleChecklistItem={(id: string) =>
+              dispatch({
+                type: 'TOGGLE_CHECKLIST_ITEM',
+                assignmentId: selectedAssignment.id,
+                itemId: id,
+              })
+            }
+            onDeleteChecklistItem={(id: string) =>
+              dispatch({
+                type: 'DELETE_CHECKLIST_ITEM',
+                assignmentId: selectedAssignment.id,
+                itemId: id,
+              })
+            }
+            onUpdateNotes={(notes: string) =>
+              dispatch({
+                type: 'UPDATE_NOTES',
+                assignmentId: selectedAssignment.id,
+                notes,
+              })
+            }
+            iconFamily={iconFamily}
           />
+        )}
+      </AssignmentOverlayDrawer>
 
-          <select
-            className="filter-select"
-            value={filterUnit}
-            onChange={(e) => setFilterUnit(e.target.value)}
-            aria-label="Filter by unit"
-          >
-            <option value="">All units</option>
-            {unitOptions.map((u) => (
-              <option key={u} value={u}>
-                {u}
-              </option>
-            ))}
-          </select>
-
-          <select
-            className="filter-select"
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value as AssignmentStatus | '')}
-            aria-label="Filter by status"
-          >
-            <option value="">All statuses</option>
-            {STATUS_OPTIONS.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-
-          <select
-            className="filter-select"
-            value={filterPriority}
-            onChange={(e) => setFilterPriority(e.target.value as AssignmentPriority | '')}
-            aria-label="Filter by priority"
-          >
-            <option value="">All priorities</option>
-            {PRIORITY_OPTIONS.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
-
-          <div className="filter-sort">
-            <span className="filter-sort-label">Sort:</span>
-            <select
-              className="filter-select"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortBy)}
-              aria-label="Sort assignments"
-            >
-              <option value="dueDate">Due date</option>
-              <option value="priority">Priority</option>
-              <option value="title">Title</option>
-            </select>
-          </div>
-
-          {hasActiveFilters && (
-            <button className="btn btn-secondary btn-sm filter-clear" onClick={clearFilters}>
-              Clear
-            </button>
-          )}
-        </div>
-      )}
-
-      <AssignmentList
-        assignments={filtered}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        emptyMessage={
-          hasActiveFilters
-            ? 'No assignments match your current filters.'
-            : 'No assignments yet. Create your first assignment to get started.'
-        }
+      <ConfirmDialog
+        open={!!confirmDeleteId}
+        title="Delete assignment"
+        message="Delete this assignment permanently?"
+        confirmLabel="Delete"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setConfirmDeleteId(null)}
       />
-
-      {formOpen && (
-        <AssignmentForm
-          initial={editing ?? undefined}
-          onSave={handleSave}
-          onClose={handleClose}
-        />
-      )}
     </div>
   )
 }

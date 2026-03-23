@@ -1,0 +1,139 @@
+/* ── Kanban view ── */
+
+.kanban-view {
+  display: grid;
+  grid-template-columns: repeat(var(--kanban-cols, 5), 1fr);
+  gap: var(--space-sm);
+  padding-bottom: var(--space-sm);
+}
+
+.kanban-column {
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--border);
+}
+
+.kanban-column-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.kanban-column-count {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  background: var(--bg-muted);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.kanban-column-body {
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex: 1;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.kanban-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) 10px;
+  cursor: pointer;
+  transition:
+    border-color 100ms,
+    box-shadow 100ms;
+}
+
+.kanban-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.kanban-card-title {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kanban-card-meta,
+.kanban-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.kanban-card-unit {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.kanban-card-priority {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.kanban-card-due {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.kanban-column-empty,
+.kanban-empty {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-align: center;
+  padding: var(--space-md) var(--space-sm);
+}
+
+/* Kanban due indicators */
+.kanban-due {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.kanban-due--overdue {
+  background: var(--overdue-bg);
+  color: var(--overdue-fg);
+}
+
+.kanban-due--today {
+  background: var(--due-today-bg);
+  color: var(--due-today-fg);
+}
+
+.kanban-due--soon {
+  background: var(--due-soon-bg);
+  color: var(--due-soon-fg);
+}

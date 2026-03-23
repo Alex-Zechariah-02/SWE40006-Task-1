@@ -1,0 +1,74 @@
+name: Release Windows Artifacts
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-windows:
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build artifacts
+        run: npm run dist:win:local
+
+      - name: List release outputs (debug)
+        run: |
+          if (!(Test-Path -LiteralPath release)) { throw "Missing release/ output directory" }
+          Get-ChildItem -LiteralPath release
+
+      - name: Upload assets to GitHub Release
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $repo = "${{ github.repository }}"
+
+          gh release view $tag --repo $repo 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create $tag --repo $repo --title $tag --notes ""
+          }
+
+          gh release upload $tag release/*.exe release/*.msi release/*.zip --repo $repo --clobber
+
+      - name: Upload EXE artifact (Actions run Artifacts)
+        uses: actions/upload-artifact@v6
+        with:
+          name: acadence-windows-exe-${{ github.ref_name }}
+          path: release/*.exe
+          if-no-files-found: error
+
+      - name: Upload MSI artifact (Actions run Artifacts)
+        uses: actions/upload-artifact@v6
+        with:
+          name: acadence-windows-msi-${{ github.ref_name }}
+          path: release/*.msi
+          if-no-files-found: error
+
+      - name: Upload ZIP artifact (Actions run Artifacts)
+        uses: actions/upload-artifact@v6
+        with:
+          name: acadence-windows-zip-${{ github.ref_name }}
+          path: release/*.zip
+          if-no-files-found: error

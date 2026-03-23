@@ -1,0 +1,90 @@
+/* ── Update log (Settings > Updates) ── */
+
+.update-log {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.update-log-entry {
+  padding: var(--row-padding-v) var(--row-padding-h);
+  border-bottom: 1px solid var(--border);
+}
+
+.update-log-entry:last-child {
+  border-bottom: none;
+}
+
+.update-log-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.update-log-version {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.update-log-label {
+  font-size: var(--font-size-xs);
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--accent-subtle);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.update-log-date {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.update-log-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.update-log-notes {
+  padding: var(--space-sm) var(--row-padding-h) var(--row-padding-v)
+    calc(var(--row-padding-h) + var(--space-lg));
+  margin: 0;
+  list-style: disc;
+}
+
+.update-log-note {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ── Update log toggle button ── */
+
+.update-log-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-family: inherit;
+  cursor: pointer;
+  padding: 2px 0;
+  margin-top: var(--space-xs);
+  transition: color 100ms;
+}
+
+.update-log-toggle:hover {
+  color: var(--text-secondary);
+}

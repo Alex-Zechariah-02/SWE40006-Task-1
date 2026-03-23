@@ -1,0 +1,158 @@
+/* ── Calendar view ── */
+
+.calendar-view {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.calendar-empty {
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+}
+
+.calendar-empty-title {
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.calendar-empty-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.calendar-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--row-padding-v) var(--row-padding-h);
+  border-bottom: 1px solid var(--border);
+}
+
+.calendar-nav-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.calendar-month-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 160px;
+  text-align: center;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+
+.calendar-weekday {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 6px 0;
+  letter-spacing: 0.04em;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-day {
+  min-height: 90px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 4px;
+  background: var(--bg-surface);
+}
+
+.calendar-day:nth-child(7n) {
+  border-right: none;
+}
+
+.calendar-day--outside,
+.calendar-day--other {
+  background: var(--bg-app);
+  opacity: 0.5;
+}
+
+.calendar-day--today {
+  background: var(--accent-subtle);
+}
+
+.calendar-day-number {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.calendar-day--today .calendar-day-number {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.calendar-day-assignments {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.calendar-assignment {
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: opacity 100ms;
+}
+
+.calendar-assignment:hover {
+  opacity: 0.8;
+}
+
+.calendar-day-more,
+.calendar-more {
+  font-size: 10px;
+  color: var(--text-muted);
+  padding: 1px 4px;
+  cursor: pointer;
+}
+
+.calendar-day-more:hover,
+.calendar-more:hover {
+  color: var(--text-secondary);
+}
+
+/* Calendar assignment status backgrounds */
+.status-bg-not-started {
+  background: var(--status-not-started-bg);
+  color: var(--status-not-started-fg);
+}
+.status-bg-in-progress {
+  background: var(--status-in-progress-bg);
+  color: var(--status-in-progress-fg);
+}
+.status-bg-review {
+  background: var(--status-review-bg);
+  color: var(--status-review-fg);
+}
+.status-bg-waiting {
+  background: var(--status-waiting-bg);
+  color: var(--status-waiting-fg);
+}
+.status-bg-completed {
+  background: var(--status-completed-bg);
+  color: var(--status-completed-fg);
+}

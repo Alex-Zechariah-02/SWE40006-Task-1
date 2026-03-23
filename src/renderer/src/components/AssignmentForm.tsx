@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import type { Assignment, AssignmentStatus, AssignmentPriority } from '../types/assignment'
+import { motion } from 'motion/react'
+import CustomSelect from './controls/CustomSelect'
+import type { SelectOption } from './controls/CustomSelect'
+import CustomDatePicker from './controls/CustomDatePicker'
+import type {
+  Assignment,
+  AssignmentStatus,
+  AssignmentPriority,
+} from '../types/assignment'
 
 interface AssignmentFormProps {
   initial?: Assignment
@@ -12,16 +20,29 @@ const STATUS_OPTIONS: AssignmentStatus[] = [
   'In progress',
   'Review',
   'Waiting',
-  'Completed'
+  'Completed',
 ]
 
-const PRIORITY_OPTIONS: AssignmentPriority[] = ['Low', 'Medium', 'High', 'Urgent']
+const PRIORITY_OPTIONS: AssignmentPriority[] = [
+  'Low',
+  'Medium',
+  'High',
+  'Urgent',
+]
 
-export default function AssignmentForm({ initial, onSave, onClose }: AssignmentFormProps) {
+export default function AssignmentForm({
+  initial,
+  onSave,
+  onClose,
+}: AssignmentFormProps) {
   const [title, setTitle] = useState(initial?.title ?? '')
   const [unit, setUnit] = useState(initial?.unit ?? '')
-  const [status, setStatus] = useState<AssignmentStatus>(initial?.status ?? 'Not started')
-  const [priority, setPriority] = useState<AssignmentPriority>(initial?.priority ?? 'Medium')
+  const [status, setStatus] = useState<AssignmentStatus>(
+    initial?.status ?? 'Not started',
+  )
+  const [priority, setPriority] = useState<AssignmentPriority>(
+    initial?.priority ?? 'Medium',
+  )
   const [dueDate, setDueDate] = useState(initial?.dueDate ?? '')
   const [description, setDescription] = useState(initial?.description ?? '')
   const [notes, setNotes] = useState(initial?.notes ?? '')
@@ -43,15 +64,37 @@ export default function AssignmentForm({ initial, onSave, onClose }: AssignmentF
       dueDate,
       description: description.trim(),
       notes: notes.trim(),
+      milestones: initial?.milestones ?? [],
+      checklist: initial?.checklist ?? [],
+      history: initial?.history ?? [],
       createdAt: initial?.createdAt ?? now,
-      updatedAt: now
+      updatedAt: now,
     }
     onSave(assignment)
   }
 
+  const motionEnabled =
+    !document.documentElement.classList.contains('motion-none')
+  const reduced = document.documentElement.classList.contains('motion-reduced')
+  const duration = motionEnabled ? (reduced ? 0.1 : 0.2) : 0
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+    <motion.div
+      className="modal-overlay"
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration }}
+    >
+      <motion.div
+        className="modal"
+        onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0, scale: motionEnabled ? 0.95 : 1 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: motionEnabled ? 0.95 : 1 }}
+        transition={{ duration }}
+      >
         <h2 className="modal-title">
           {initial ? 'Edit assignment' : 'Create assignment'}
         </h2>
@@ -84,7 +127,7 @@ export default function AssignmentForm({ initial, onSave, onClose }: AssignmentF
               type="text"
               value={unit}
               onChange={(e) => setUnit(e.target.value)}
-              placeholder="e.g. SWE40006 Software Deployment"
+              placeholder="e.g. Software Engineering"
             />
           </div>
 
@@ -104,39 +147,27 @@ export default function AssignmentForm({ initial, onSave, onClose }: AssignmentF
 
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label" htmlFor="field-status">
-                Status
-              </label>
-              <select
-                id="field-status"
-                className="form-control"
+              <label className="form-label">Status</label>
+              <CustomSelect
                 value={status}
-                onChange={(e) => setStatus(e.target.value as AssignmentStatus)}
-              >
-                {STATUS_OPTIONS.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
+                onChange={(v) => setStatus(v as AssignmentStatus)}
+                options={STATUS_OPTIONS.map(
+                  (s): SelectOption => ({ value: s, label: s }),
+                )}
+                aria-label="Status"
+              />
             </div>
 
             <div className="form-group">
-              <label className="form-label" htmlFor="field-priority">
-                Priority
-              </label>
-              <select
-                id="field-priority"
-                className="form-control"
+              <label className="form-label">Priority</label>
+              <CustomSelect
                 value={priority}
-                onChange={(e) => setPriority(e.target.value as AssignmentPriority)}
-              >
-                {PRIORITY_OPTIONS.map((p) => (
-                  <option key={p} value={p}>
-                    {p}
-                  </option>
-                ))}
-              </select>
+                onChange={(v) => setPriority(v as AssignmentPriority)}
+                options={PRIORITY_OPTIONS.map(
+                  (p): SelectOption => ({ value: p, label: p }),
+                )}
+                aria-label="Priority"
+              />
             </div>
           </div>
 
@@ -144,12 +175,10 @@ export default function AssignmentForm({ initial, onSave, onClose }: AssignmentF
             <label className="form-label" htmlFor="field-due">
               Due date
             </label>
-            <input
+            <CustomDatePicker
               id="field-due"
-              className="form-control"
-              type="date"
               value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
+              onChange={(v) => setDueDate(v)}
             />
           </div>
 
@@ -168,7 +197,11 @@ export default function AssignmentForm({ initial, onSave, onClose }: AssignmentF
           </div>
 
           <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={onClose}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onClose}
+            >
               Cancel
             </button>
             <button type="submit" className="btn btn-primary">
@@ -176,7 +209,7 @@ export default function AssignmentForm({ initial, onSave, onClose }: AssignmentF
             </button>
           </div>
         </form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }

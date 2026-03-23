@@ -4,7 +4,11 @@ interface EmptyStateProps {
   action?: React.ReactNode
 }
 
-export default function EmptyState({ title, subtitle, action }: EmptyStateProps) {
+export default function EmptyState({
+  title,
+  subtitle,
+  action,
+}: EmptyStateProps) {
   return (
     <div className="empty-state">
       <p className="empty-state-title">{title}</p>

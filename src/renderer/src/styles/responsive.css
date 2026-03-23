@@ -1,0 +1,170 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Responsive layout — width-based breakpoints
+   Acadence minimum window: 360×520. Default: 1280×800.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Compact (≤ 768px) — assignment row compact mode ── */
+
+/* Compact list: two-line stacked layout preserving all metadata */
+.assignment-row--compact {
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+}
+
+.assignment-row--compact .assignment-compact-meta {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.assignment-row--compact .assignment-compact-meta .assignment-unit,
+.assignment-row--compact .assignment-compact-meta .assignment-status,
+.assignment-row--compact .assignment-compact-meta .assignment-priority,
+.assignment-row--compact .assignment-compact-meta .assignment-due {
+  font-size: 10px;
+}
+
+/* ── Filter bar responsive ── */
+
+@media (max-width: 979px) {
+  .filter-bar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .filter-bar {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Theme grid responsive ── */
+
+@media (max-width: 979px) {
+  .theme-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Calendar responsive ── */
+
+@media (max-width: 640px) {
+  .calendar-day {
+    min-height: 64px;
+    padding: 2px;
+  }
+  .calendar-day-number {
+    font-size: 9px;
+    margin-bottom: 2px;
+  }
+  .calendar-assignment {
+    font-size: 9px;
+    padding: 1px 3px;
+  }
+  .calendar-weekday {
+    font-size: 9px;
+    padding: 4px 0;
+  }
+  .calendar-month-label {
+    font-size: 13px;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 440px) {
+  .calendar-day {
+    min-height: 48px;
+  }
+  .calendar-assignment {
+    font-size: 8px;
+    padding: 1px 2px;
+  }
+  .calendar-day-assignments {
+    gap: 1px;
+  }
+}
+
+/* ── Overlay drawer responsive ── */
+
+@media (max-width: 480px) {
+  .detail-panel--overlay {
+    width: 100%;
+  }
+}
+
+/* ── Kanban responsive ── */
+
+/* Kanban column body: remove max-height restriction on narrow widths */
+@media (max-width: 800px) {
+  .kanban-column-body {
+    max-height: none;
+  }
+}
+
+/* ── Narrow (≤ 979px) — compact padding, single-column forms ── */
+
+@media (max-width: 979px) {
+  .main-content {
+    padding: 16px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Compact desktop (≤ 1100px) — collapse detail metadata grid ── */
+
+@media (max-width: 1100px) {
+  .assignments-page-layout {
+    flex-direction: column;
+  }
+
+  .detail-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .main-content {
+    padding: 20px 20px;
+  }
+}
+
+/* ── Settings responsive ── */
+
+@media (max-width: 600px) {
+  .settings-layout {
+    flex-direction: column;
+  }
+
+  .settings-tabs {
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-width: 0;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: var(--space-xs);
+  }
+
+  .settings-tab-btn {
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    font-size: var(--font-size-xs);
+    padding: 6px 10px;
+  }
+
+  .settings-tab-btn.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--accent);
+  }
+}
+
+/* ── Settings page width ── */
+
+@media (min-width: 1600px) {
+  .settings-page {
+    max-width: 1600px;
+  }
+}

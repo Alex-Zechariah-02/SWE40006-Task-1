@@ -1,27 +1,125 @@
 import { useState } from 'react'
-import type { ThemeId } from '../services/theme'
+import { motion, AnimatePresence } from 'motion/react'
+import type {
+  ThemeId,
+  ColorMode,
+  OverlayBlur,
+  FontSize,
+  ColorPresence,
+  NotificationPosition,
+} from '../services/theme'
+import { useAssignments } from '../context/assignments/AssignmentContext'
+import { RELEASES_URL } from '../services/release'
+import { toast } from '../components/ToastContainer'
+import SettingsTabNav, {
+  type SettingsTab,
+} from '../components/settings/SettingsTabNav'
+import GeneralSettingsSection from '../features/settings/ui/GeneralSettingsSection'
+import AppearanceSettingsSection from '../features/settings/ui/AppearanceSettingsSection'
+import UpdatesSettingsSection from '../features/settings/ui/UpdatesSettingsSection'
+import AboutSettingsSection from '../features/settings/ui/AboutSettingsSection'
+import type { MotionPreference } from '../features/settings/config/settingsOptions'
+import { useReleaseEntries } from '../features/settings/hooks/useReleaseEntries'
 
-declare const __APP_VERSION__: string
+const LAST_OPENED_UPDATES_KEY = 'acadence-update-last-checked'
 
-type Density = 'compact' | 'balanced' | 'spacious'
-type SettingsTab = 'general' | 'appearance' | 'updates' | 'about'
-
-interface SettingsPageProps {
-  density: Density
-  onDensityChange: (density: Density) => void
-  theme: ThemeId
-  onThemeChange: (theme: ThemeId) => void
+function loadLastOpenedUpdates(): string | null {
+  try {
+    return localStorage.getItem(LAST_OPENED_UPDATES_KEY)
+  } catch {
+    return null
+  }
 }
 
-export default function SettingsPage({ density, onDensityChange, theme, onThemeChange }: SettingsPageProps) {
-  const [activeTab, setActiveTab] = useState<SettingsTab>('appearance')
-
-  const TAB_LABELS: Record<SettingsTab, string> = {
-    general: 'General',
-    appearance: 'Appearance',
-    updates: 'Updates',
-    about: 'About'
+function saveLastOpenedUpdates(): string {
+  const now = new Date().toLocaleString(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  })
+  try {
+    localStorage.setItem(LAST_OPENED_UPDATES_KEY, now)
+  } catch {
+    /* ignore */
   }
+  return now
+}
+
+interface SettingsPageProps {
+  theme: ThemeId
+  onThemeChange: (theme: ThemeId) => void
+  colorMode: ColorMode
+  onColorModeChange: (mode: ColorMode) => void
+  motionPreference: MotionPreference
+  onMotionPreferenceChange: (pref: MotionPreference) => void
+  overlayBlur: OverlayBlur
+  onOverlayBlurChange: (blur: OverlayBlur) => void
+  fontSize: FontSize
+  onFontSizeChange: (size: FontSize) => void
+  colorPresence: ColorPresence
+  onColorPresenceChange: (presence: ColorPresence) => void
+  notificationPosition: NotificationPosition
+  onNotificationPositionChange: (position: NotificationPosition) => void
+  iconFamily: 'phosphor' | 'tabler'
+}
+
+export default function SettingsPage({
+  theme,
+  onThemeChange,
+  colorMode,
+  onColorModeChange,
+  motionPreference,
+  onMotionPreferenceChange,
+  overlayBlur,
+  onOverlayBlurChange,
+  fontSize,
+  onFontSizeChange,
+  colorPresence,
+  onColorPresenceChange,
+  notificationPosition,
+  onNotificationPositionChange,
+  iconFamily,
+}: SettingsPageProps) {
+  const [activeTab, setActiveTab] = useState<SettingsTab>('appearance')
+  const { assignments, dispatch } = useAssignments()
+  const [lastOpenedUpdates, setLastOpenedUpdates] = useState<string | null>(
+    () => loadLastOpenedUpdates(),
+  )
+  const releaseEntries = useReleaseEntries()
+
+  async function handleOpenReleases() {
+    if (!RELEASES_URL) {
+      toast.info('No releases URL is configured for this build.')
+      return
+    }
+    const ok = await window.api.openExternal(RELEASES_URL)
+    if (!ok) {
+      toast.error('Unable to open the releases page.')
+      return
+    }
+
+    const ts = saveLastOpenedUpdates()
+    setLastOpenedUpdates(ts)
+  }
+
+  const motionEnabled =
+    !document.documentElement.classList.contains('motion-none')
+  const reduced = document.documentElement.classList.contains('motion-reduced')
+  const tabMotion = motionEnabled
+    ? {
+        initial: { opacity: 0, y: reduced ? 2 : 4 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: reduced ? -2 : -4 },
+        transition: {
+          duration: reduced ? 0.08 : 0.15,
+          ease: [0.25, 1, 0.5, 1] as const,
+        },
+      }
+    : {
+        initial: { opacity: 1 },
+        animate: { opacity: 1 },
+        exit: { opacity: 1 },
+        transition: { duration: 0 },
+      }
 
   return (
     <div className="settings-page">
@@ -31,113 +129,64 @@ export default function SettingsPage({ density, onDensityChange, theme, onThemeC
       </div>
 
       <div className="settings-layout">
-        <nav className="settings-tabs" aria-label="Settings sections">
-          {(Object.keys(TAB_LABELS) as SettingsTab[]).map((tab) => (
-            <button
-              key={tab}
-              className={`settings-tab-btn${activeTab === tab ? ' active' : ''}`}
-              onClick={() => setActiveTab(tab)}
-              aria-current={activeTab === tab ? 'page' : undefined}
-            >
-              {TAB_LABELS[tab]}
-            </button>
-          ))}
-        </nav>
+        <SettingsTabNav
+          activeTab={activeTab}
+          onChangeTab={setActiveTab}
+          iconFamily={iconFamily}
+        />
 
         <div className="settings-content">
-          {activeTab === 'general' && (
-            <div className="settings-section">
-              <div className="settings-section-title">Data</div>
-              <div className="settings-row">
-                <div>
-                  <div className="settings-row-label">Storage</div>
-                  <div className="settings-row-desc">Assignment data is stored locally on this device</div>
-                </div>
-                <div className="settings-row-control">
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Local</span>
-                </div>
-              </div>
-            </div>
-          )}
+          <AnimatePresence mode="wait" initial={false}>
+            {activeTab === 'general' && (
+              <motion.div key="general" {...tabMotion}>
+                <GeneralSettingsSection
+                  assignments={assignments}
+                  onImportAssignments={(imported) =>
+                    dispatch({ type: 'SET_ALL', assignments: imported })
+                  }
+                />
+              </motion.div>
+            )}
 
-          {activeTab === 'appearance' && (
-            <div className="settings-section">
-              <div className="settings-section-title">Appearance</div>
-              <div className="settings-row">
-                <div>
-                  <div className="settings-row-label">Theme</div>
-                  <div className="settings-row-desc">Visual identity for your workspace</div>
-                </div>
-                <div className="settings-row-control">
-                  <select
-                    className="filter-select"
-                    value={theme}
-                    onChange={(e) => onThemeChange(e.target.value as ThemeId)}
-                    aria-label="Theme"
-                  >
-                    <option value="editorial-control-room">Editorial Control Room</option>
-                  </select>
-                </div>
-              </div>
-              <div className="settings-row">
-                <div>
-                  <div className="settings-row-label">Density</div>
-                  <div className="settings-row-desc">Controls the spacing of list rows and content areas</div>
-                </div>
-                <div className="settings-row-control">
-                  <select
-                    className="filter-select"
-                    value={density}
-                    onChange={(e) => onDensityChange(e.target.value as Density)}
-                    aria-label="Display density"
-                  >
-                    <option value="compact">Compact</option>
-                    <option value="balanced">Balanced</option>
-                    <option value="spacious">Spacious</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          )}
+            {activeTab === 'appearance' && (
+              <motion.div key="appearance" {...tabMotion}>
+                <AppearanceSettingsSection
+                  theme={theme}
+                  onThemeChange={onThemeChange}
+                  colorMode={colorMode}
+                  onColorModeChange={onColorModeChange}
+                  motionPreference={motionPreference}
+                  onMotionPreferenceChange={onMotionPreferenceChange}
+                  overlayBlur={overlayBlur}
+                  onOverlayBlurChange={onOverlayBlurChange}
+                  fontSize={fontSize}
+                  onFontSizeChange={onFontSizeChange}
+                  colorPresence={colorPresence}
+                  onColorPresenceChange={onColorPresenceChange}
+                  notificationPosition={notificationPosition}
+                  onNotificationPositionChange={onNotificationPositionChange}
+                />
+              </motion.div>
+            )}
 
-          {activeTab === 'updates' && (
-            <div className="settings-section">
-              <div className="settings-section-title">Updates</div>
-              <div className="settings-row">
-                <div>
-                  <div className="settings-row-label">Automatic updates</div>
-                  <div className="settings-row-desc">Update checking is not available in this version.</div>
-                </div>
-              </div>
-            </div>
-          )}
+            {activeTab === 'updates' && (
+              <motion.div key="updates" {...tabMotion}>
+                <UpdatesSettingsSection
+                  lastOpenedUpdates={lastOpenedUpdates}
+                  onOpenReleases={handleOpenReleases}
+                  releaseEntries={releaseEntries}
+                  releasesUrl={RELEASES_URL}
+                  iconFamily={iconFamily}
+                />
+              </motion.div>
+            )}
 
-          {activeTab === 'about' && (
-            <div className="settings-section">
-              <div className="about-field">
-                <span className="about-field-label">Application</span>
-                <span className="about-field-value">Acadence</span>
-              </div>
-              <div className="about-field">
-                <span className="about-field-label">Version</span>
-                <span className="about-field-value">{__APP_VERSION__}</span>
-              </div>
-              <div className="about-field">
-                <span className="about-field-label">Description</span>
-                <span className="about-field-value">
-                  A desktop academic workspace for managing assignments across multiple units.
-                </span>
-              </div>
-              <div className="about-field">
-                <span className="about-field-label">Platform</span>
-                <span className="about-field-value">Electron + React + TypeScript</span>
-              </div>
-              <div className="about-field">
-                <span className="about-field-label">Storage</span>
-                <span className="about-field-value">Local device storage</span>
-              </div>
-            </div>
-          )}
+            {activeTab === 'about' && (
+              <motion.div key="about" {...tabMotion}>
+                <AboutSettingsSection />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>

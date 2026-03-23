@@ -1,0 +1,105 @@
+/* ── Custom select ── */
+
+.custom-select {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-select-label {
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+  letter-spacing: 0.05em;
+}
+
+.custom-select-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  color: var(--text-primary);
+  background: var(--bg-app);
+  cursor: pointer;
+  outline: none;
+  min-width: 120px;
+  transition: border-color 100ms;
+}
+
+.custom-select-trigger:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+.custom-select-trigger--open {
+  border-color: var(--accent);
+}
+
+.custom-select-trigger--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.custom-select-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.custom-select-chevron {
+  flex-shrink: 0;
+  transition: transform 150ms ease;
+}
+
+.custom-select-chevron--open {
+  transform: rotate(180deg);
+}
+
+.custom-select-desc {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.custom-select-menu {
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  z-index: 1002;
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  outline: none;
+}
+
+.custom-select-option {
+  padding: 6px 10px;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 80ms;
+}
+
+.custom-select-option--focused {
+  background: var(--accent-subtle);
+}
+
+.custom-select-option--selected {
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.custom-select-option--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

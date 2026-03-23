@@ -1,0 +1,43 @@
+{
+  "entries": [
+    {
+      "version": "v1.0.0",
+      "label": "Release 1.0.0",
+      "date": "2026-03-21",
+      "notes": [
+        "Animated transitions with motion preference options",
+        "Theme-specific icon sets for Ledgerline and Vector Slate",
+        "Custom select, date, and confirmation controls",
+        "Assignment detail drawer for list, calendar, and kanban views",
+        "Appearance settings for font size, color mode, color presence, overlay blur, and notification position",
+        "Responsive dashboard, assignments, calendar, kanban, and settings layouts",
+        "Assignment grouping by due date, unit, and unit plus due date",
+        "Release history loaded from a bundled manifest"
+      ]
+    },
+    {
+      "version": "v0.6.0",
+      "label": "Preview update",
+      "date": "2026-03-15",
+      "notes": [
+        "Dark mode and color mode switching",
+        "Keyboard row selection and navigation",
+        "Motion preference setting",
+        "Theme preview cards",
+        "Assignment detail tabs"
+      ]
+    },
+    {
+      "version": "v0.1.0",
+      "label": "Initial preview",
+      "date": "2026-03-15",
+      "notes": [
+        "Dashboard with assignment overview widgets",
+        "Assignment create, edit, and delete flows",
+        "List, calendar, and kanban views",
+        "Sidebar navigation with collapse",
+        "Settings sections for general, appearance, updates, and about"
+      ]
+    }
+  ]
+}

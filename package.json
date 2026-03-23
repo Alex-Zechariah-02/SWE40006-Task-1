@@ -1,15 +1,39 @@
 {
   "name": "acadence",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "Academic workspace for managing assignments across multiple units",
   "main": "out/main/index.js",
   "author": "Acadence",
+  "repository": "git+https://github.com/Alex-Zechariah-02/SWE40006-Task-1.git",
+  "homepage": "https://github.com/Alex-Zechariah-02/SWE40006-Task-1",
+  "bugs": {
+    "url": "https://github.com/Alex-Zechariah-02/SWE40006-Task-1/issues"
+  },
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
     "dist": "npm run build && electron-builder",
-    "dist:win": "npm run build && electron-builder --win"
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:win:local": "npm run build && electron-builder --win nsis zip msi --publish never",
+    "dist:win:publish": "npm run build && electron-builder --win nsis zip msi --publish always",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
+  },
+  "dependencies": {
+    "@fontsource/azeret-mono": "^5.2.11",
+    "@fontsource/bricolage-grotesque": "^5.2.10",
+    "@fontsource/ibm-plex-mono": "^5.2.7",
+    "@fontsource/ibm-plex-sans": "^5.2.8",
+    "@fontsource/ibm-plex-sans-condensed": "^5.2.8",
+    "@fontsource/newsreader": "^5.2.10",
+    "@fontsource/source-serif-4": "^5.2.9",
+    "@phosphor-icons/react": "^2.1.10",
+    "@tabler/icons-react": "^3.40.0",
+    "date-fns": "^4.1.0",
+    "motion": "^12.38.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.18",
@@ -18,8 +42,17 @@
     "electron": "^34.0.0",
     "electron-builder": "^25.1.8",
     "electron-vite": "^2.3.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-unused-imports": "^4.2.0",
+    "globals": "^15.15.0",
+    "prettier": "^3.6.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.44.1",
+    "@typescript-eslint/parser": "^8.44.1",
     "typescript": "^5.7.3",
     "vite": "^5.0.0"
   }

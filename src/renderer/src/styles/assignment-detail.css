@@ -1,0 +1,246 @@
+/* ── Assignment Detail panel ── */
+
+.detail-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.detail-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  padding: var(--space-xs) 0;
+  transition: color 100ms;
+}
+
+.detail-back-btn:hover {
+  color: var(--text-primary);
+}
+
+.detail-header-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.detail-title-block {
+  margin-bottom: var(--space-md);
+}
+
+.detail-title {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  margin: 0 0 var(--space-xs) 0;
+}
+
+.detail-unit {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  background: var(--bg-muted);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.detail-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--space-lg);
+}
+
+.detail-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  padding: var(--space-sm) 10px;
+  margin-bottom: -1px;
+  white-space: nowrap;
+  transition:
+    color 100ms,
+    border-color 100ms;
+}
+
+.detail-tab--active {
+  border-bottom-color: var(--accent);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.detail-tab:hover:not(.detail-tab--active) {
+  color: var(--text-primary);
+}
+
+.detail-body {
+  flex: 1;
+}
+
+.detail-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin: 0;
+}
+
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.detail-field dt {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.detail-field dd {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+.detail-field--full {
+  grid-column: 1 / -1;
+}
+
+.detail-field--meta dt {
+  font-size: var(--font-size-xs);
+}
+
+.detail-field--meta dd {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.detail-text {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+}
+
+.detail-empty {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  padding: var(--space-md) 0;
+}
+
+.detail-notes,
+.detail-history {
+  padding: var(--space-sm) 0;
+}
+
+/* ── Assignments page layout (list + detail side-by-side) ── */
+
+.assignments-page-layout {
+  display: flex;
+  gap: var(--space-md);
+  height: 100%;
+}
+
+.assignments-main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Page toolbar actions ── */
+
+.page-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.toolbar-header {
+  flex: 1 1 auto;
+  min-width: 150px;
+}
+
+.page-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.toolbar-view-mode {
+  display: flex;
+  gap: 2px;
+}
+
+.toolbar-primary-action {
+  flex-shrink: 0;
+}
+
+.view-mode-toggle {
+  display: flex;
+  gap: 2px;
+  background: var(--bg-muted);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+
+.view-mode-toggle .btn {
+  border-radius: 3px;
+}
+
+/* ── Notes editing ── */
+
+.notes-edit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.notes-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: var(--space-sm) 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  outline: none;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.notes-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+.notes-edit-actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+}

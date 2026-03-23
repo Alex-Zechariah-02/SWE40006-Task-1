@@ -1,0 +1,345 @@
+/* ── Dashboard ── */
+
+.dash-welcome {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  max-width: 560px;
+}
+
+.dash-welcome-heading {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.dash-welcome-body {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+
+.dash-welcome-cta {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Dashboard post-onboarding empty state */
+
+.dash-empty-state {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 48px 36px;
+  text-align: center;
+  max-width: 480px;
+}
+
+.dash-empty-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.dash-empty-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dash-grid {
+  display: grid;
+  gap: var(--gap-grid);
+}
+
+/* Dashboard widget */
+
+.dash-widget {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.dash-widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--row-padding-v) var(--row-padding-h);
+  border-bottom: 1px solid var(--border);
+}
+
+.dash-widget-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.dash-widget-icon {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.7;
+}
+
+.dash-widget-count {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.dash-widget--red .dash-widget-count {
+  color: var(--widget-red);
+}
+.dash-widget--amber .dash-widget-count {
+  color: var(--widget-amber);
+}
+.dash-widget--blue .dash-widget-count {
+  color: var(--widget-blue);
+}
+.dash-widget--green .dash-widget-count {
+  color: var(--widget-green);
+}
+.dash-widget--neutral .dash-widget-count {
+  color: var(--text-secondary);
+}
+
+.dash-widget--red {
+  border-top: 2px solid var(--widget-red);
+}
+.dash-widget--amber {
+  border-top: 2px solid var(--widget-amber);
+}
+.dash-widget--blue {
+  border-top: 2px solid var(--widget-blue);
+}
+.dash-widget--green {
+  border-top: 2px solid var(--widget-green);
+}
+.dash-widget--neutral {
+  border-top: 2px solid var(--border-strong);
+}
+
+.dash-widget-body {
+  padding: 6px 0;
+  min-height: 64px;
+}
+
+.dash-widget-empty {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-align: center;
+  padding: 20px 16px;
+}
+
+/* Dashboard assignment rows */
+
+.dash-assignment-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--row-padding-h);
+  gap: 10px;
+  border-bottom: 1px solid var(--bg-app);
+}
+
+.dash-assignment-row:last-child {
+  border-bottom: none;
+}
+
+.dash-assignment-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.dash-assignment-title {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-assignment-unit {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-assignment-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.dash-assignment-due {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Due labels */
+
+.due-label {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.due-overdue {
+  background: var(--overdue-bg);
+  color: var(--overdue-fg);
+}
+.due-soon {
+  background: var(--due-soon-bg);
+  color: var(--due-soon-fg);
+}
+.due-today {
+  background: var(--due-today-bg);
+  color: var(--due-today-fg);
+}
+
+/* Progress bar */
+
+.dash-progress-wrap {
+  padding: 14px 16px 10px;
+}
+
+.dash-progress-bar {
+  height: 8px;
+  background: var(--bg-muted);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.dash-progress-fill {
+  height: 100%;
+  background: var(--widget-green);
+  border-radius: 4px;
+  transition: width 300ms ease;
+}
+
+.dash-progress-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.dash-completion-detail {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  padding: 0 16px 10px;
+}
+
+/* ── Dashboard: by unit widget ── */
+
+.dash-unit-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dash-unit-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--row-padding-h);
+  border-bottom: 1px solid var(--bg-app);
+}
+
+.dash-unit-row:last-child {
+  border-bottom: none;
+}
+
+.dash-unit-name {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dash-unit-count {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* ── Dashboard: recent activity widget ── */
+
+.dash-activity-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dash-activity-row {
+  padding: var(--space-sm) var(--row-padding-h);
+  border-bottom: 1px solid var(--bg-app);
+}
+
+.dash-activity-row:last-child {
+  border-bottom: none;
+}
+
+.dash-activity-action {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.dash-activity-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-xs);
+}
+
+.dash-activity-assignment {
+  color: var(--text-secondary);
+}
+
+.dash-activity-time {
+  color: var(--text-muted);
+}
+
+/* ── Dashboard: readiness score widget ── */
+
+.dash-readiness {
+  padding: 0;
+}
+
+.dash-readiness-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  padding: 0 16px 10px;
+  font-weight: 500;
+}

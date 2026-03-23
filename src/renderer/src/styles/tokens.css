@@ -1,0 +1,172 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Acadence — Academic Workspace
+   Design system: CSS custom properties, layout, components
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Design tokens ── */
+
+:root {
+  /* Brand */
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-subtle: rgba(37, 99, 235, 0.08);
+
+  /* Surfaces */
+  --bg-app: #f4f4f5;
+  --bg-surface: #ffffff;
+  --bg-sidebar: #111111;
+  --bg-sidebar-hover: #1c1c1c;
+  --bg-sidebar-active: #1a1a1a;
+  --bg-muted: #f1f2f4;
+
+  /* Borders */
+  --border: #e4e4e7;
+  --border-strong: #d1d5db;
+  --border-sidebar: #1f1f1f;
+
+  /* Text */
+  --text-primary: #111111;
+  --text-secondary: #52525b;
+  --text-muted: #a1a1aa;
+  --text-sidebar: #d4d4d4;
+  --text-sidebar-active: #ffffff;
+  --text-sidebar-muted: #525252;
+
+  /* Status colours */
+  --status-not-started-bg: #f3f4f6;
+  --status-not-started-fg: #6b7280;
+  --status-in-progress-bg: #dbeafe;
+  --status-in-progress-fg: #1d4ed8;
+  --status-review-bg: #fef3c7;
+  --status-review-fg: #d97706;
+  --status-waiting-bg: #ede9fe;
+  --status-waiting-fg: #7c3aed;
+  --status-completed-bg: #d1fae5;
+  --status-completed-fg: #059669;
+
+  /* Priority colours */
+  --priority-low-bg: #f3f4f6;
+  --priority-low-fg: #6b7280;
+  --priority-medium-bg: #fef3c7;
+  --priority-medium-fg: #d97706;
+  --priority-high-bg: #fee2e2;
+  --priority-high-fg: #dc2626;
+  --priority-urgent-bg: #dc2626;
+  --priority-urgent-fg: #ffffff;
+
+  /* Danger */
+  --danger: #dc2626;
+  --danger-subtle: #fef2f2;
+  --danger-border: #fca5a5;
+
+  /* Overdue / due-soon */
+  --overdue-bg: #fee2e2;
+  --overdue-fg: #b91c1c;
+  --due-soon-bg: #fef3c7;
+  --due-soon-fg: #b45309;
+  --due-today-bg: #ffedd5;
+  --due-today-fg: #c2410c;
+
+  /* Widget accents */
+  --widget-red: #dc2626;
+  --widget-amber: #d97706;
+  --widget-blue: #2563eb;
+  --widget-green: #059669;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --row-padding-v: 12px;
+  --row-padding-h: 16px;
+  --sidebar-width: 212px;
+  --content-padding: 28px 32px;
+  --font-size-base: 14px;
+  --font-size-sm: 12px;
+  --font-size-xs: 11px;
+  --gap-grid: 14px;
+  --gap-list: 8px;
+  --font-display: 'Newsreader', serif;
+  --font-heading: 'Bricolage Grotesque', sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'Azeret Mono', monospace;
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Overlay */
+  --overlay-blur: 0px;
+}
+
+/* ── Font size preference ── */
+.font-size-tiny {
+  --font-size-base: 12px;
+  --font-size-sm: 10px;
+  --font-size-xs: 9px;
+}
+.font-size-small {
+  --font-size-base: 13px;
+  --font-size-sm: 11px;
+  --font-size-xs: 10px;
+}
+/* .font-size-default uses :root values (14px / 12px / 11px) */
+.font-size-big {
+  --font-size-base: 15px;
+  --font-size-sm: 13px;
+  --font-size-xs: 12px;
+}
+.font-size-huge {
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-xs: 13px;
+}
+
+/* ── Color presence preference ── */
+.color-presence-minimal {
+  --accent: var(--text-secondary);
+  --accent-hover: var(--text-primary);
+  --accent-subtle: var(--bg-muted);
+  --widget-red: var(--text-secondary);
+  --widget-amber: var(--text-secondary);
+  --widget-blue: var(--text-secondary);
+  --widget-green: var(--text-secondary);
+}
+/* .color-presence-balanced uses theme defaults */
+
+/* ── Theme: Vector Slate ── */
+
+.theme-vector-slate {
+  --font-display: 'Source Serif 4', serif;
+  --font-heading: 'IBM Plex Sans Condensed', sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --accent: #1e40af;
+  --accent-hover: #1e3a8a;
+  --accent-subtle: rgba(30, 64, 175, 0.08);
+
+  --bg-app: #f1f5f9;
+  --bg-surface: #ffffff;
+  --bg-sidebar: #0f172a;
+  --bg-sidebar-hover: #1e293b;
+  --bg-sidebar-active: #172040;
+  --bg-muted: #eceef1;
+
+  --border: #d8dae0;
+  --border-strong: #c5c8d0;
+  --border-sidebar: #1e293b;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-sidebar: #c8cdd5;
+  --text-sidebar-active: #ffffff;
+  --text-sidebar-muted: #4a4f5a;
+
+  --widget-red: #b91c1c;
+  --widget-amber: #b45309;
+  --widget-blue: #1e40af;
+  --widget-green: #047857;
+}
